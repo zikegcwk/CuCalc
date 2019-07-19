@@ -57,6 +57,8 @@ RUN dpkg -i --ignore-depends=cuda-cudart-10-1,cuda-cudart-dev-10-1,libcublas-dev
     /var/nv-tensorrt-repo-cuda10.1-trt5.1.5.0-ga-20190427/libnvinfer-samples_5.1.5-1+cuda10.1_all.deb
 RUN dpkg -i --ignore-depends=cuda-cudart-10-1,cuda-cudart-dev-10-1,libcublas-dev \
     /var/nv-tensorrt-repo-cuda10.1-trt5.1.5.0-ga-20190427/tensorrt_5.1.5.0-1+cuda10.1_amd64.deb
+RUN dpkg -P --ignore-depends=cuda-cudart-10-1,cuda-cudart-dev-10-1,libcublas-dev \
+    nv-tensorrt-repo-ubuntu1804-cuda10.1-trt5.1.5.0-ga-20190427
 
 # Install NVIDIA Collective Communications Library (NCCL)
 # from NVIDIA machine learning development repo
@@ -67,15 +69,15 @@ RUN wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubu
     dpkg -i --ignore-depends=cuda-cudart-10-1,cuda-cudart-dev-10-1,libcublas-dev ./libnccl-dev_2.4.7-1+cuda10.1_amd64.deb && \
     rm ./libnccl-dev_2.4.7-1+cuda10.1_amd64.deb
 
-RUN ln -s cuda-10.1 /usr/local/cuda
+#RUN ln -s cuda-10.1 /usr/local/cuda
 
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
-    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
+#RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
+#    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
 # Install CUDA path variables
-ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
-ENV LIBRARY_PATH /usr/local/cuda/lib64/stubs
-ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+#ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
+#ENV LIBRARY_PATH /usr/local/cuda/lib64/stubs
+#ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
 # nvidia-container-runtime
 ENV NVIDIA_VISIBLE_DEVICES all
