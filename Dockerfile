@@ -65,8 +65,28 @@ ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 ENV NVIDIA_REQUIRE_CUDA "cuda>=10.2"
 
-#Start CuCalc
+#Install Anaconda
+RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O ~/anaconda.sh && \
+    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
+    rm ~/anaconda.sh
 
+#Install Python packages (incl. Theano, Keras and PyTorch)
+RUN /opt/conda/bin/conda install -y ipykernel matplotlib pydot-ng theano pygpu bcolz paramiko keras seaborn graphviz scikit-learn cudatoolkit numba bokeh flask pandas fuzzywuzzy
+RUN /opt/conda/bin/conda create -n xeus python=3.6 ipykernel xeus-cling -c QuantStack -c conda-forge
+RUN /opt/conda/bin/conda create -n pytorch python=3.6 ipykernel pytorch torchvision cuda90 -c pytorch
+
+ENV PATH /opt/conda/bin:${PATH}
+ENV PATH /usr/local/cuda/bin:${PATH}
+RUN echo 'export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}' >> /cocalc/src/smc_pyutil/smc_pyutil/templates/linux/bashrc && \
+    echo 'export PATH=/opt/conda/bin${PATH:+:${PATH}}' >> /cocalc/src/smc_pyutil/smc_pyutil/templates/linux/bashrc
+
+#Add Conda kernel to Jupyter
+RUN python -m ipykernel install --prefix=/usr/local/ --name "anaconda_kernel"
+
+
+
+#Start CuCalc
 CMD /root/run.py
 
 EXPOSE 80 443
