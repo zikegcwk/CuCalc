@@ -2,7 +2,7 @@
 
 This is Docker container build on top of CoCalc image (https://github.com/sagemathinc/cocalc-docker) to add support of CUDA for GPU programming. My use is running it on my dedicated desktop computer with GPU and access from laptop anywhere.
 
-Also added some useful packages missing from CoCalc Docker but present in the CoCalc.com, such as Anaconda.
+Also added CUDNN and Tensorflow required stuff.
 
 Prerequisites:
 + Docker
