@@ -8,11 +8,7 @@ RUN apt update && UCF_FORCE_CONFOLD=1 DEBIAN_FRONTEND=noninteractive \
     apt autoremove -y
 
 # Install NVIDIA driver (440.59) from Ubuntu official packages (focal, 19.10)
-RUN echo "deb http://archive.ubuntu.com/ubuntu disco main restricted universe multiverse" > /etc/apt/sources.list.d/disco.list && \
-    echo "deb http://archive.ubuntu.com/ubuntu eoan main restricted universe multiverse" > /etc/apt/sources.list.d/eoan.list && \
-    echo "deb http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse" > /etc/apt/sources.list.d/eoan.list && \
-    echo "APT::Default-Release \"bionic\";" > /etc/apt/apt.conf && \
-    apt update && \
+RUN apt update && \
     apt install -y --no-install-recommends \
     nvidia-driver-440=440.59-0ubuntu2 \
     libnvidia-gl-440=440.59-0ubuntu2 \
